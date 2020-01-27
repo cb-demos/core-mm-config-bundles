@@ -1,1 +1,1 @@
-# core-mm-alpha
+# core-mm-config-bundles
