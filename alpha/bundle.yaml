@@ -1,0 +1,9 @@
+id: "alpha-bundle"
+version: "1"
+description: "Example config bundle for Alpha master"
+plugins:
+  - "plugins.yaml"
+jcasc:
+  - "jenkins.yaml"
+catalog:
+  - "plugin-catalog.yaml"
