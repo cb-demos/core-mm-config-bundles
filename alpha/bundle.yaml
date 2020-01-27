@@ -1,4 +1,4 @@
-id: "alpha-bundle"
+id: "alpha"
 version: "1"
 description: "Example config bundle for Alpha master"
 plugins:
