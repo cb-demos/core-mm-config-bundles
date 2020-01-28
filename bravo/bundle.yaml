@@ -1,6 +1,6 @@
-id: "alpha"
+id: "bravo"
 version: "1.2"
-description: "Example config bundle for Alpha master"
+description: "Example config bundle for Bravo master"
 plugins:
   - "plugins.yaml"
 jcasc:

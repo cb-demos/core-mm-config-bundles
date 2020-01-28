@@ -1,0 +1,9 @@
+type: plugin-catalog
+version: '1'
+name: bravo-catalog
+displayName: Bravo Master Catalog
+configurations:
+- description: bravo-builder
+  includePlugins:
+    beer:
+      version: 1.2
