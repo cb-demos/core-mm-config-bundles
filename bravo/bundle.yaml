@@ -1,0 +1,9 @@
+id: "bravo"
+version: "1.2"
+description: "Example config bundle for Bravo master"
+plugins:
+  - "plugins.yaml"
+jcasc:
+  - "jenkins.yaml"
+catalog:
+  - "plugin-catalog.yaml"
