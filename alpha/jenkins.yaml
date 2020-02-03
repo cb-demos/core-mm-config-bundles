@@ -1,3 +1,33 @@
 jenkins:
   systemMessage: "Master configured with config bundle"
-  
+unclassified:
+  gitHubPluginConfig:
+    hookUrl: "https://core.cb-demos.io/alpha/github-webhook/"
+  globalLibraries:
+    libraries:
+    - defaultVersion: "master"
+      name: "cb-days"
+      retriever:
+        modernSCM:
+          scm:
+            github:
+              configuredByUrl: true
+              id: "220cc010-fcd8-4a73-aaaa-63f688adc585"
+              repoOwner: "cloudbees-days"
+              repository: "pipeline-library"
+              repositoryUrl: "https://github.com/cloudbees-days/pipeline-library.git"
+              traits:
+              - gitHubBranchDiscovery:
+                  strategyId: 1
+              - originPullRequestDiscoveryTrait:
+                  strategyId: 1
+              - gitHubForkDiscovery:
+                  strategyId: 1
+                  trust: "gitHubTrustPermissions"
+  location:
+    url: "https://core.cb-demos.io/alpha/"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
