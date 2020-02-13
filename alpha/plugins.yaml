@@ -47,6 +47,7 @@ plugins:
 - id: "kubernetes"
 - id: "javadoc"
 - id: "configuration-as-code"
+- id: "configuration-as-code-groovy"
 - id: "pipeline-model-extensions"
 - id: "docker-workflow"
 - id: "apache-httpcomponents-client-4-api"

@@ -1,0 +1,36 @@
+<org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@2.21">
+  <actions />
+  <properties>
+    <com.cloudbees.pipeline.governance.templates.classic.multibranch.GovernanceMultibranchPipelinePropertyImpl plugin="cloudbees-workflow-template@3.3">
+      <instance>
+        <model>workshopCatalog/vuejs-app</model>
+        <values class="tree-map">
+          <entry>
+            <string>gcpProject</string>
+            <string>core-flow-research</string>
+          </entry>
+          <entry>
+            <string>githubCredentialId</string>
+            <string>github-token</string>
+          </entry>
+          <entry>
+            <string>name</string>
+            <string>microblog-frontend</string>
+          </entry>
+          <entry>
+            <string>registry</string>
+            <string>docker.cb-demos.io</string>
+          </entry>
+          <entry>
+            <string>repoOwner</string>
+            <string>cloudbees-days</string>
+          </entry>
+          <entry>
+            <string>repository</string>
+            <string>microblog-frontend</string>
+          </entry>
+        </values>
+      </instance>
+    </com.cloudbees.pipeline.governance.templates.classic.multibranch.GovernanceMultibranchPipelinePropertyImpl>
+  </properties>
+</org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>

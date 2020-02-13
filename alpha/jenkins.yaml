@@ -1,8 +1,30 @@
+credentials:
+  system:
+    domainCredentials:
+    - domain :
+        name: "github.com"
+        description: "GitHub"
+      credentials:
+      - string:
+          id: github-token-secret-text
+          scope: GLOBAL
+          description: "GitHub token - secret text"
+          secret: ${github-token}
+      - usernamePassword:
+          id: github-token
+          scope: GLOBAL
+          description: "GitHub token"
+          username: ${github-username}
+          password: ${github-token}
 jenkins:
   systemMessage: "Master configured with config bundle"
+  numExecutors: 0
 unclassified:
   gitHubPluginConfig:
-    hookUrl: "https://core.cb-demos.io/alpha/github-webhook/"
+    configs:
+    - name: "github"
+      credentialsId: "github-token-secret-text"
+      manageHooks: true
   globalLibraries:
     libraries:
     - defaultVersion: "master"
@@ -12,7 +34,7 @@ unclassified:
           scm:
             github:
               configuredByUrl: true
-              id: "220cc010-fcd8-4a73-aaaa-63f688adc585"
+              id: github-token
               repoOwner: "cloudbees-days"
               repository: "pipeline-library"
               repositoryUrl: "https://github.com/cloudbees-days/pipeline-library.git"
@@ -25,9 +47,136 @@ unclassified:
                   strategyId: 1
                   trust: "gitHubTrustPermissions"
   location:
-    url: "https://core.cb-demos.io/alpha/"
+    adminAddress: "address not configured yet <nobody@nowhere>"
+    url: "https://${hostname}/teams-alpha/"
 tool:
   git:
     installations:
     - home: "git"
       name: "Default"
+groovy:
+  # - url: "https://raw.githubusercontext.com/cb-demos/core-mm-config-bundles/master/scripts/createPipelineTemplateCatalog.groovy"
+  # - url: "https://raw.githubusercontext.com/cb-demos/core-mm-config-bundles/master/scripts/createPipelinesFromTemplate.groovy"
+  - script: >
+      import jenkins.model.*;
+      import org.jenkinsci.plugins.workflow.libs.*;
+      import jenkins.scm.api.SCMSource;
+      import jenkins.plugins.git.*;
+      import com.cloudbees.pipeline.governance.templates.*;
+      import com.cloudbees.pipeline.governance.templates.catalog.*;
+      import java.util.logging.Logger;
+
+      Logger logger = Logger.getLogger("createPipelineTemplateCatalog.groovy");
+
+      SCMSource scm = new GitSCMSource("https://github.com/cloudbees-days/pipeline-template-catalog.git");
+      scm.setCredentialsId("github-token");
+
+      TemplateCatalog catalog = new TemplateCatalog(scm, "master");
+      catalog.setUpdateInterval("1h");
+
+      GlobalTemplateCatalogManagement.get().addCatalog(catalog);
+      GlobalTemplateCatalogManagement.get().save();
+      logger.info("Creating new Pipeline Template Catalog");
+
+      catalog.updateFromSCM(); 
+  - script: >
+      import hudson.model.*;
+      import jenkins.model.*;
+      import com.cloudbees.hudson.plugins.folder.*;
+      import java.util.logging.Logger;
+
+      Logger logger = Logger.getLogger("createPipelinesFromTemplate.groovy");
+
+      def j = Jenkins.instance;
+
+      def backendConfig = """
+      <org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@2.21">
+        <properties>
+          <com.cloudbees.pipeline.governance.templates.classic.multibranch.GovernanceMultibranchPipelinePropertyImpl plugin="cloudbees-workflow-template@3.3">
+            <instance>
+              <model>workshopCatalog/python</model>
+              <values class="tree-map">
+                <entry>
+                  <string>githubCredentialId</string>
+                  <string>github-token</string>
+                </entry>
+                <entry>
+                  <string>name</string>
+                  <string>microblog-backend</string>
+                </entry>
+                <entry>
+                  <string>registry</string>
+                  <string>docker.cb-demos.io</string>
+                </entry>
+                <entry>
+                  <string>repoOwner</string>
+                  <string>cloudbees-days</string>
+                </entry>
+                <entry>
+                  <string>repository</string>
+                  <string>microblog-backend</string>
+                </entry>
+              </values>
+            </instance>
+          </com.cloudbees.pipeline.governance.templates.classic.multibranch.GovernanceMultibranchPipelinePropertyImpl>
+        </properties>
+      </org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>
+      """
+
+      def frontendConfig = """
+      <org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@2.21">
+        <actions />
+        <properties>
+          <com.cloudbees.pipeline.governance.templates.classic.multibranch.GovernanceMultibranchPipelinePropertyImpl plugin="cloudbees-workflow-template@3.3">
+            <instance>
+              <model>workshopCatalog/vuejs-app</model>
+              <values class="tree-map">
+                <entry>
+                  <string>gcpProject</string>
+                  <string>core-flow-research</string>
+                </entry>
+                <entry>
+                  <string>githubCredentialId</string>
+                  <string>github-token</string>
+                </entry>
+                <entry>
+                  <string>name</string>
+                  <string>microblog-frontend</string>
+                </entry>
+                <entry>
+                  <string>registry</string>
+                  <string>docker.cb-demos.io</string>
+                </entry>
+                <entry>
+                  <string>repoOwner</string>
+                  <string>cloudbees-days</string>
+                </entry>
+                <entry>
+                  <string>repository</string>
+                  <string>microblog-frontend</string>
+                </entry>
+              </values>
+            </instance>
+          </com.cloudbees.pipeline.governance.templates.classic.multibranch.GovernanceMultibranchPipelinePropertyImpl>
+        </properties>
+      </org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>
+      """
+
+      def jobMap = [
+        'microblog-backend': backendConfig,
+        'microblog-frontend': frontendConfig
+      ];
+
+      jobMap.each{ name, configXml -> 
+        logger.info("Creating $name from Pipeline Template");
+        def job = j.getItem(name);
+        if (job != null) {
+          logger.info("Job $name already exists - skipping");
+        } else {
+          println "Creating $name from Pipeline Template";
+
+          // def configXml = new File(config).text;
+
+          def p = j.createProjectFromXML(name, new ByteArrayInputStream(configXml.getBytes("UTF-8")));
+        }
+      };

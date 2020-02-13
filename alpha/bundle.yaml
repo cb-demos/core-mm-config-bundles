@@ -1,5 +1,5 @@
 id: "alpha"
-version: "1.2"
+version: "1.2.3"
 description: "Example config bundle for Alpha master"
 plugins:
   - "plugins.yaml"
