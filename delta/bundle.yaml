@@ -1,0 +1,9 @@
+id: "delta"
+version: "1.2"
+description: "Example config bundle for Delta master"
+plugins:
+  - "plugins.yaml"
+jcasc:
+  - "jenkins.yaml"
+catalog:
+  - "plugin-catalog.yaml"

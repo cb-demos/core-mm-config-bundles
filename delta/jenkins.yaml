@@ -1,0 +1,3 @@
+jenkins:
+  systemMessage: "Master configured with config bundle"
+  

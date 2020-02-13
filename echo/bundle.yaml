@@ -1,0 +1,9 @@
+id: "echo"
+version: "1.2"
+description: "Example config bundle for Echo master"
+plugins:
+  - "plugins.yaml"
+jcasc:
+  - "jenkins.yaml"
+catalog:
+  - "plugin-catalog.yaml"
