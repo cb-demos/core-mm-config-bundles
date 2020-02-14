@@ -27,7 +27,7 @@ def backendConfig = """
           </entry>
           <entry>
             <string>repoOwner</string>
-            <string>cloudbees-days</string>
+            <string>cb-demos</string>
           </entry>
           <entry>
             <string>repository</string>
@@ -66,7 +66,7 @@ def frontendConfig = """
           </entry>
           <entry>
             <string>repoOwner</string>
-            <string>cloudbees-days</string>
+            <string>cb-demos</string>
           </entry>
           <entry>
             <string>repository</string>

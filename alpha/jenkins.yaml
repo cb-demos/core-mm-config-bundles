@@ -35,9 +35,9 @@ unclassified:
             github:
               configuredByUrl: true
               id: github-token
-              repoOwner: "cloudbees-days"
+              repoOwner: "cb-demos"
               repository: "pipeline-library"
-              repositoryUrl: "https://github.com/cloudbees-days/pipeline-library.git"
+              repositoryUrl: "https://github.com/cb-demos/pipeline-library.git"
               traits:
               - gitHubBranchDiscovery:
                   strategyId: 1
@@ -68,7 +68,7 @@ groovy:
 
       Logger logger = Logger.getLogger("createPipelineTemplateCatalog.groovy");
 
-      SCMSource scm = new GitSCMSource("https://github.com/cloudbees-days/pipeline-template-catalog.git");
+      SCMSource scm = new GitSCMSource("https://github.com/cb-demos/core-pipeline-template-catalog.git");
       scm.setCredentialsId("github-token");
 
       TemplateCatalog catalog = new TemplateCatalog(scm, "master");
@@ -110,7 +110,7 @@ groovy:
                 </entry>
                 <entry>
                   <string>repoOwner</string>
-                  <string>cloudbees-days</string>
+                  <string>cb-demos</string>
                 </entry>
                 <entry>
                   <string>repository</string>
@@ -149,7 +149,7 @@ groovy:
                 </entry>
                 <entry>
                   <string>repoOwner</string>
-                  <string>cloudbees-days</string>
+                  <string>cb-demos</string>
                 </entry>
                 <entry>
                   <string>repository</string>

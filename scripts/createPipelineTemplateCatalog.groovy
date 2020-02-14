@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 Logger logger = Logger.getLogger("createPipelineTemplateCatalog.groovy");
 
-SCMSource scm = new GitSCMSource("https://github.com/cloudbees-days/pipeline-template-catalog.git");
+SCMSource scm = new GitSCMSource("https://github.com/cb-demos/core-pipeline-template-catalog.git");
 scm.setCredentialsId("github-token");
 
 TemplateCatalog catalog = new TemplateCatalog(scm, "master");
