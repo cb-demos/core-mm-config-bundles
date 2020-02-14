@@ -1,0 +1,16 @@
+# kubectl patch sts MASTER -p "$(cat masterStatefulSetPatch.yaml)"
+spec:
+  template:
+    spec:
+      containers:
+      - name: jenkins
+        env:
+        - name: SECRETS
+          value: /var/jenkins_home/jcasc-secret
+        volumeMounts:
+        - name: jcasc-secret
+          mountPath: /var/jenkins_home/jcasc-secret
+      volumes:
+      - name: jcasc-secret
+        secret:
+          secretName: jcasc-secret

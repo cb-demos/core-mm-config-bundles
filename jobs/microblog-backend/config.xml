@@ -1,0 +1,31 @@
+<org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@2.21">
+  <properties>
+    <com.cloudbees.pipeline.governance.templates.classic.multibranch.GovernanceMultibranchPipelinePropertyImpl plugin="cloudbees-workflow-template@3.3">
+      <instance>
+        <model>workshopCatalog/python</model>
+        <values class="tree-map">
+          <entry>
+            <string>githubCredentialId</string>
+            <string>github-token</string>
+          </entry>
+          <entry>
+            <string>name</string>
+            <string>microblog-backend</string>
+          </entry>
+          <entry>
+            <string>registry</string>
+            <string>docker.cb-demos.io</string>
+          </entry>
+          <entry>
+            <string>repoOwner</string>
+            <string>cb-demos</string>
+          </entry>
+          <entry>
+            <string>repository</string>
+            <string>microblog-backend</string>
+          </entry>
+        </values>
+      </instance>
+    </com.cloudbees.pipeline.governance.templates.classic.multibranch.GovernanceMultibranchPipelinePropertyImpl>
+  </properties>
+</org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>
